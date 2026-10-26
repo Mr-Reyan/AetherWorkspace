@@ -30,12 +30,13 @@ Licenses are listed from general knowledge. **Verify each against the package's 
 Pricing sources: see `08_cost-and-scaling.xlsx` (each price has its URL and date accessed).
 
 ## 3. Reused code and modifications
-[CONFIRM: list any tutorials, repositories or snippets you adapted, with URL, license and what you changed. If none, write "None; code written by the author using the libraries above."]
 
 ## 4. AI-use disclosure
 AI assistance (Claude, by Anthropic) was used on this project for:
 - Generating `05_test-cases.xlsx` from the author's own test files and pytest output
-- Drafting `01_README.md`, `03_schema.sql`, `06_engineering-decisions.md` and this file from the author's source code
-- [CONFIRM and edit: add anything else AI was used for, such as writing application code or tests, or delete lines that do not apply]
+- Drafting `01_README.md`, `03_schema.sql`, `06_engineering-decisions.md`, `08_cost-and-scaling.xlsx`, `09_sources-and-disclosure.md`,`10_submission-index.md`,`02_architecture.pdf`, `03_database-design.pdf`, `04_api-workflows.pdf`, `05_test-cases.xlsx`, Backend Helper Functions were made from single whole block views, and this file from the author's source code
 
-**Independent verification:** [WRITE THIS YOURSELF: what you checked, for example: ran the test suite and compared counts; compared schema.sql with your migrations; read each design decision against the code; changes you made to the drafts.]
+
+
+**Independent verification:** Ran the tests and all passed. went through the whole API and endpoints and checked for bugs and errors. Went through the whole flow and made sure it works as expected. 
+

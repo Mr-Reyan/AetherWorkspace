@@ -11,15 +11,17 @@ Owner: [YOUR NAME]    Reviewer: [JUNIOR 1/2 NAME]    Date: [DATE]
 | 04 | API workflows | `04_api-workflows.pdf`, `04_api-spec.md` | PDF: [ADD] / Lucidchart: [ADD] | Spec drafted; sequence diagrams to be drawn in Lucidchart (Mermaid inside the spec) |
 | 05 | Test cases | `05_test-cases.xlsx` | [ADD] | Done: 75 tests, 74 pass, 1 skipped; add evidence links |
 | 06 | Engineering decisions | `06_engineering-decisions.md` | [ADD] | Drafted |
-| 07 | Source + demo | GitHub repo; demo video | Repo: [ADD] / Demo: [ADD] | Demo not recorded yet |
+| 07 | Source + demo | GitHub repo; demo video | Repo: https://github.com/Mr-Reyan/AetherWorkspace / Demo: [ADD] | Demo not recorded yet |
 | 08 | Cost and scaling | `08_cost-and-scaling.xlsx` | [ADD] | Drafted; verify prices flagged on the Prices sheet |
 | 09 | Sources and disclosure | `09_sources-and-disclosure.md` | [ADD] | Drafted; complete disclosure paragraph |
+
+Fields that have [ADD] are present in the github too. 
 
 ## Reviewer access
 Drive folder shared with HR: YES
 
 ## Missing or incomplete items
-- [LIST ANYTHING STILL MISSING, e.g. frontend, Lucidchart exports, demo video]
+- Lucidchart Editable Links
 - Known code gaps are listed in `01_README.md` and `06_engineering-decisions.md`
 
 
