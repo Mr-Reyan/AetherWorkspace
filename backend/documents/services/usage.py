@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 import os
 from dotenv import load_dotenv
 load_dotenv()
-WINDOW_DAYS = os.getenv("WINDOW_DAYS",30)
+WINDOW_DAYS = int(os.getenv("WINDOW_DAYS", 30))
 
 def get_usage_summary(user) -> dict:
     since = timezone.now() - timedelta(days=WINDOW_DAYS)
