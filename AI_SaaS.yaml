@@ -1,0 +1,972 @@
+openapi: 3.0.3
+info:
+  title: Blog Platform API
+  version: 1.0.0
+paths:
+  /api/schema/:
+    get:
+      operationId: schema_retrieve
+      description: |-
+        OpenApi3 schema for this API. Format can be selected via content negotiation.
+
+        - YAML: application/vnd.oai.openapi
+        - JSON: application/vnd.oai.openapi+json
+      parameters:
+      - in: query
+        name: format
+        schema:
+          type: string
+          enum:
+          - json
+          - yaml
+      - in: query
+        name: lang
+        schema:
+          type: string
+          enum:
+          - af
+          - ar
+          - ar-dz
+          - ast
+          - az
+          - be
+          - bg
+          - bn
+          - br
+          - bs
+          - ca
+          - ckb
+          - cs
+          - cy
+          - da
+          - de
+          - dsb
+          - el
+          - en
+          - en-au
+          - en-gb
+          - eo
+          - es
+          - es-ar
+          - es-co
+          - es-mx
+          - es-ni
+          - es-ve
+          - et
+          - eu
+          - fa
+          - fi
+          - fr
+          - fy
+          - ga
+          - gd
+          - gl
+          - he
+          - hi
+          - hr
+          - hsb
+          - ht
+          - hu
+          - hy
+          - ia
+          - id
+          - ig
+          - io
+          - is
+          - it
+          - ja
+          - ka
+          - kab
+          - kk
+          - km
+          - kn
+          - ko
+          - ky
+          - lb
+          - lt
+          - lv
+          - mk
+          - ml
+          - mn
+          - mr
+          - ms
+          - my
+          - nb
+          - ne
+          - nl
+          - nn
+          - os
+          - pa
+          - pl
+          - pt
+          - pt-br
+          - ro
+          - ru
+          - sk
+          - sl
+          - sq
+          - sr
+          - sr-latn
+          - sv
+          - sw
+          - ta
+          - te
+          - tg
+          - th
+          - tk
+          - tr
+          - tt
+          - udm
+          - ug
+          - uk
+          - ur
+          - uz
+          - vi
+          - zh-hans
+          - zh-hant
+      tags:
+      - schema
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/vnd.oai.openapi:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/yaml:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/vnd.oai.openapi+json:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
+  /api/v1/auth/login/:
+    post:
+      operationId: v1_auth_login_create
+      description: |-
+        Takes a set of user credentials and returns an access and refresh JSON web
+        token pair to prove the authentication of those credentials.
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+        required: true
+      security:
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenObtainPair'
+          description: ''
+  /api/v1/auth/logout/:
+    post:
+      operationId: v1_auth_logout_create
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Logout'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Logout'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Logout'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/auth/me/:
+    get:
+      operationId: v1_auth_me_retrieve
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+  /api/v1/auth/refresh/:
+    post:
+      operationId: v1_auth_refresh_create
+      description: |-
+        Takes a refresh type JSON web token and returns an access type JSON web
+        token if the refresh token is valid.
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenRefresh'
+          description: ''
+  /api/v1/auth/register/:
+    post:
+      operationId: v1_auth_register_create
+      description: |-
+        POST /api/v1/auth/register/
+        Public. Creates a MEMBER account
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Register'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Register'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Register'
+        required: true
+      security:
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Register'
+          description: ''
+  /api/v1/usage/:
+    get:
+      operationId: v1_usage_retrieve
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsageSummary'
+          description: ''
+  /api/v1/workspaces/:
+    get:
+      operationId: v1_workspaces_list
+      description: |-
+        GET  /api/v1/workspaces/   — list workspaces the current user belongs to
+        POST /api/v1/workspaces/   — create a workspace (creator becomes member + owner)
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Workspace'
+          description: ''
+    post:
+      operationId: v1_workspaces_create
+      description: |-
+        GET  /api/v1/workspaces/   — list workspaces the current user belongs to
+        POST /api/v1/workspaces/   — create a workspace (creator becomes member + owner)
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WorkspaceCreate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/WorkspaceCreate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/WorkspaceCreate'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Workspace'
+          description: ''
+  /api/v1/workspaces/{id}/:
+    get:
+      operationId: v1_workspaces_retrieve
+      description: |-
+        GET /api/v1/workspaces/<uuid:id>/
+        Only members can view.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Workspace'
+          description: ''
+  /api/v1/workspaces/{id}/ask/:
+    post:
+      operationId: v1_workspaces_ask_create
+      description: POST /api/v1/workspaces/<uuid:id>/ask/
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AskRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AskRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AskRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AskResponse'
+          description: ''
+  /api/v1/workspaces/{id}/documents/:
+    get:
+      operationId: v1_workspaces_documents_list
+      description: |-
+        GET  /api/v1/workspaces/<uuid:id>/documents/   — list documents in the workspace
+        POST /api/v1/workspaces/<uuid:id>/documents/   — upload a PDF or TXT (multipart, field `file`)
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Document'
+          description: ''
+    post:
+      operationId: v1_workspaces_documents_create
+      description: |-
+        GET  /api/v1/workspaces/<uuid:id>/documents/   — list documents in the workspace
+        POST /api/v1/workspaces/<uuid:id>/documents/   — upload a PDF or TXT (multipart, field `file`)
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+              required:
+              - file
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Document'
+          description: ''
+  /api/v1/workspaces/{id}/documents/{doc_id}/:
+    delete:
+      operationId: v1_workspaces_documents_destroy
+      parameters:
+      - in: path
+        name: doc_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/workspaces/{id}/invites/:
+    post:
+      operationId: v1_workspaces_invites_create
+      description: |-
+        POST /api/v1/workspaces/<uuid:id>/invites/
+        Owner only.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InviteCreate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/InviteCreate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/InviteCreate'
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Invite'
+          description: ''
+  /api/v1/workspaces/{id}/requests/:
+    get:
+      operationId: v1_workspaces_requests_list
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RequestHistory'
+          description: ''
+  /api/v1/workspaces/{id}/requests/{request_id}/:
+    get:
+      operationId: v1_workspaces_requests_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: path
+        name: request_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestDetail'
+          description: ''
+  /api/v1/workspaces/join/{token}/:
+    post:
+      operationId: v1_workspaces_join_create
+      description: |-
+        POST /api/v1/workspaces/join/<str:token>/
+        Idempotent. Any authenticated user can redeem.
+      parameters:
+      - in: path
+        name: token
+        schema:
+          type: string
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Workspace'
+          description: ''
+components:
+  schemas:
+    AskRequest:
+      type: object
+      properties:
+        question:
+          type: string
+          maxLength: 2000
+        excluded_document_ids:
+          type: array
+          items:
+            type: string
+            format: uuid
+      required:
+      - question
+    AskResponse:
+      type: object
+      properties:
+        request_id:
+          type: string
+          format: uuid
+        answer:
+          type: string
+        status:
+          type: string
+        citations:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChunkRef'
+        tokens_in:
+          type: integer
+        tokens_out:
+          type: integer
+        retrieval_used:
+          type: boolean
+        reranked:
+          type: boolean
+      required:
+      - answer
+      - citations
+      - request_id
+      - reranked
+      - retrieval_used
+      - status
+      - tokens_in
+      - tokens_out
+    ChunkRef:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        chunk_index:
+          type: integer
+          readOnly: true
+        content:
+          type: string
+          readOnly: true
+        document_name:
+          type: string
+          readOnly: true
+      required:
+      - chunk_index
+      - content
+      - document_name
+      - id
+    Document:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        workspace_id:
+          type: string
+          format: uuid
+          readOnly: true
+        filename:
+          type: string
+          readOnly: true
+        mime:
+          type: string
+          readOnly: true
+        size_bytes:
+          type: integer
+          readOnly: true
+        status:
+          allOf:
+          - $ref: '#/components/schemas/DocumentStatusEnum'
+          readOnly: true
+        error:
+          type: string
+          readOnly: true
+        uploaded_by:
+          type: string
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - error
+      - filename
+      - id
+      - mime
+      - size_bytes
+      - status
+      - uploaded_by
+      - workspace_id
+    DocumentStatusEnum:
+      enum:
+      - pending
+      - ready
+      - failed
+      type: string
+      description: |-
+        * `pending` - Pending
+        * `ready` - Ready
+        * `failed` - Failed
+    Invite:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        token:
+          type: string
+          readOnly: true
+        expires_at:
+          type: string
+          format: date-time
+          readOnly: true
+        max_uses:
+          type: integer
+          readOnly: true
+        uses:
+          type: integer
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        redeem_url:
+          type: string
+          readOnly: true
+      required:
+      - created_at
+      - expires_at
+      - id
+      - max_uses
+      - redeem_url
+      - token
+      - uses
+    InviteCreate:
+      type: object
+      properties:
+        expires_at:
+          type: string
+          format: date-time
+          nullable: true
+        max_uses:
+          type: integer
+          maximum: 100
+          minimum: 1
+          default: 1
+    Logout:
+      type: object
+      properties:
+        refresh:
+          type: string
+      required:
+      - refresh
+    Register:
+      type: object
+      properties:
+        username:
+          type: string
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        password:
+          type: string
+          writeOnly: true
+          minLength: 8
+      required:
+      - password
+      - username
+    RequestDetail:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        question:
+          type: string
+          readOnly: true
+        answer:
+          type: string
+          readOnly: true
+        status:
+          allOf:
+          - $ref: '#/components/schemas/StatusF94Enum'
+          readOnly: true
+        tokens_in:
+          type: integer
+          readOnly: true
+        tokens_out:
+          type: integer
+          readOnly: true
+        citations:
+          type: string
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - answer
+      - citations
+      - created_at
+      - id
+      - question
+      - status
+      - tokens_in
+      - tokens_out
+    RequestHistory:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        question:
+          type: string
+          readOnly: true
+        answer:
+          type: string
+          readOnly: true
+        status:
+          allOf:
+          - $ref: '#/components/schemas/StatusF94Enum'
+          readOnly: true
+        tokens_in:
+          type: integer
+          readOnly: true
+        tokens_out:
+          type: integer
+          readOnly: true
+        retrieved_chunk_ids:
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - answer
+      - created_at
+      - id
+      - question
+      - retrieved_chunk_ids
+      - status
+      - tokens_in
+      - tokens_out
+    StatusF94Enum:
+      enum:
+      - pending
+      - success
+      - failed
+      - not_found
+      type: string
+      description: |-
+        * `pending` - Pending
+        * `success` - Success
+        * `failed` - Failed
+        * `not_found` - Not found in documents
+    TokenObtainPair:
+      type: object
+      properties:
+        username:
+          type: string
+          writeOnly: true
+        password:
+          type: string
+          writeOnly: true
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+          readOnly: true
+      required:
+      - access
+      - password
+      - refresh
+      - username
+    TokenRefresh:
+      type: object
+      properties:
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+      required:
+      - access
+      - refresh
+    UsageSummary:
+      type: object
+      properties:
+        used_tokens:
+          type: integer
+        limit_tokens:
+          type: integer
+        remaining_tokens:
+          type: integer
+        window_days:
+          type: integer
+        resets_at:
+          type: string
+          format: date-time
+        is_exceeded:
+          type: boolean
+      required:
+      - is_exceeded
+      - limit_tokens
+      - remaining_tokens
+      - resets_at
+      - used_tokens
+      - window_days
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        username:
+          type: string
+          readOnly: true
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+      required:
+      - id
+      - username
+    Workspace:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          readOnly: true
+        created_by:
+          type: integer
+          readOnly: true
+        created_by_username:
+          type: string
+          readOnly: true
+        member_count:
+          type: string
+          readOnly: true
+        role:
+          type: string
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - created_by
+      - created_by_username
+      - id
+      - member_count
+      - name
+      - role
+    WorkspaceCreate:
+      type: object
+      description: Write serializer — only `name` is client-controlled.
+      properties:
+        name:
+          type: string
+          maxLength: 50
+      required:
+      - name
+  securitySchemes:
+    jwtAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
